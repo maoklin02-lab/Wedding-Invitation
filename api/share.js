@@ -1,4 +1,4 @@
-const APP_URL = process.env.APP_URL || 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
+const APP_URL = process.env.APP_URL || 'https://script.google.com/macros/s/AKfycbz-YivK7DsJd_ObP7EdVAeb3zBzOU0shf5rGpjti5ZKpMPNWHuTIWKMFyAqPYTyUjCptg/exec';
 const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 module.exports = async (req, res) => {
