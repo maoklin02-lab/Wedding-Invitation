@@ -1,4 +1,4 @@
-const APP_URL = process.env.APP_URL || 'https://script.google.com/macros/s/AKfycbz-YivK7DsJd_ObP7EdVAeb3zBzOU0shf5rGpjti5ZKpMPNWHuTIWKMFyAqPYTyUjCptg/exec';
+const APP_URL = process.env.APP_URL || 'https://script.google.com/macros/s/AKfycbydNNWqCVqVnPY34v2XXPizXRGakqm6GWEX8eHB32_TXQonCu2pQZlflppMA5UUKaEK/exec';
 const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const firstOf = v => { try { const a = JSON.parse(v); return Array.isArray(a) ? a[0] : ''; } catch (e) { return ''; } };
