@@ -1,10 +1,10 @@
 {
   "name": "wedding-invitation",
   "private": true,
+  "engines": {
+    "node": "26.x"
+  },
   "dependencies": {
     "sharp": "^0.33.5"
-  },
-  "engines": {
-    "node": "20.x"
   }
 }
