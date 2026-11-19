@@ -1207,16 +1207,18 @@ window.addEventListener('load', function () {
       @keyframes gtGlow{0%{opacity:0}35%{opacity:1}100%{opacity:0}}
     </style>
     <style id="lv-features">
-      /* programme timeline cards */
-      .tl{position:relative;text-align:left;margin:.7rem 0 0;padding-left:1.7rem}
-      .tl::before{content:"";position:absolute;left:.42rem;top:.8rem;bottom:.8rem;width:2px;background:linear-gradient(var(--f1),var(--f3) 55%,#d9b15a22)}
-      .tli{position:relative;display:grid;grid-template-columns:1fr auto;gap:.15rem .8rem;align-items:start;padding:.9rem 1rem;margin:0 0 .85rem;border:1px solid #d9b15a88;border-radius:1.1rem;background:linear-gradient(#000a,#000c);box-shadow:0 6px 18px #0006}
-      .tli::before{content:"";position:absolute;left:calc(-1.28rem - 4.5px);top:1.3rem;width:11px;height:11px;border-radius:50%;background:var(--f2);box-shadow:0 0 0 3px #0b0905,0 0 8px #d9b15a88}
-      .tli .tm{grid-column:1;justify-self:start;display:inline-block;padding:.12rem .7rem;border-radius:2rem;background:#d9b15a22;border:1px solid #d9b15a55;color:var(--f3);font-size:.74rem;font-weight:600}
-      .tli .tt{grid-column:1;font-family:Moul,Moulpali,serif;font-weight:400;font-size:clamp(.88rem,3.7vw,1.02rem);line-height:1.8;color:#f9f1d6;margin-top:.15rem}
-      .tli .ts{grid-column:1;font-size:.8rem;opacity:.72;line-height:1.5}
-      .tli .ti{grid-column:2;grid-row:1/4;width:2.7rem;height:2.7rem;border-radius:.8rem;border:1px solid #d9b15a99;background:#d9b15a1f;display:flex;align-items:center;justify-content:center;color:var(--f3)}
-      .tli .ti svg{width:1.4rem;height:1.4rem;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+      /* programme timeline: compact rows */
+      .tline{position:relative;text-align:left;margin:.5rem 0 0;padding-left:1.5rem}
+      .tline::before{content:"";position:absolute;left:.38rem;top:.7rem;bottom:.7rem;width:2px;background:linear-gradient(var(--f1),var(--f3) 55%,#d9b15a33)}
+      .tli{position:relative;display:grid;grid-template-columns:auto 1fr auto;column-gap:.55rem;row-gap:.05rem;align-items:center;padding:.5rem .6rem;margin:0 0 .5rem;border:1px solid #d9b15a77;border-radius:.8rem;background:linear-gradient(#000a,#000c);box-shadow:0 4px 12px #0005}
+      .tli::before{content:"";position:absolute;left:calc(-1.12rem - 3.5px);top:50%;margin-top:-4.5px;width:9px;height:9px;border-radius:50%;background:var(--f2);box-shadow:0 0 0 3px #0b0905,0 0 7px #d9b15a88}
+      .tli::after{content:"";position:absolute;left:-.95rem;top:50%;width:.95rem;height:1px;background:#d9b15a66}
+      .tli .tm{grid-column:1;grid-row:1/3;max-width:6.3rem;text-align:center;padding:.18rem .5rem;border-radius:.6rem;background:#d9b15a22;border:1px solid #d9b15a55;color:var(--f3);font-size:10.5px;font-weight:600;line-height:1.4}
+      .tli .tt{grid-column:2;font-family:Moulpali,Moul,serif;font-weight:400;font-size:12px;line-height:1.7;color:#f9f1d6}
+      .tli .ts{grid-column:2;font-size:10px;opacity:.7;line-height:1.4}
+      .tli .ti{grid-column:3;grid-row:1/3;width:1.9rem;height:1.9rem;border-radius:.55rem;border:1px solid #d9b15a99;background:#d9b15a1f;display:flex;align-items:center;justify-content:center;color:var(--f3)}
+      .tli .ti svg{width:1.05rem;height:1.05rem;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+      @media (max-width:380px){.tli .tt{font-size:10.5px}.tli .tm{font-size:9.5px;max-width:5.4rem}.tli .ts{font-size:9px}}
       /* KHQR USD / KHR */
       .gtabs{display:grid;grid-template-columns:1fr 1fr;gap:.3rem;max-width:22rem;margin:0 auto 1.1rem;padding:.3rem;border:1px solid #d9b15a88;border-radius:.9rem;background:#000a}
       .gtabs button{padding:.65rem .3rem;border-radius:.65rem;font-weight:700;font-size:.82rem;color:var(--cream);background:transparent;border:0;cursor:pointer}
@@ -1262,6 +1264,69 @@ window.addEventListener('load', function () {
       /* top-left logo would sit on the corner ornament; show it only after scrolling */
       #lv-bar .lg{transition:opacity .35s}#lv-bar:not(.sc) .lg{opacity:0}
     </style>
+    <style id="lv-cover2">
+      /* gold double frame + 4 matching corners (kept above the bottom bar) */
+      #live-cover{--fb:clamp(5.2rem,10svh,6.4rem)}
+      #live-cover>.lc-fl{position:absolute;pointer-events:none;z-index:2}
+      #live-cover>.lc-fl.a{left:12px;right:12px;top:12px;bottom:var(--fb);border:1px solid var(--f2);opacity:.85}
+      #live-cover>.lc-fl.b{left:19px;right:19px;top:19px;bottom:calc(var(--fb) + 7px);border:1px solid var(--f1);opacity:.5}
+      #live-cover>.lc-corner{width:clamp(78px,24vw,118px)!important;z-index:3;opacity:1!important;filter:drop-shadow(0 0 6px #d9b15a66)}
+      #live-cover>.lc-corner.tl{top:8px!important;left:8px!important;right:auto!important;bottom:auto!important;transform:none!important}
+      #live-cover>.lc-corner.tr{top:8px!important;right:8px!important;left:auto!important;bottom:auto!important;transform:scaleX(-1)!important}
+      #live-cover>.lc-corner.bl{bottom:calc(var(--fb) - 4px)!important;left:8px!important;top:auto!important;right:auto!important;transform:scaleY(-1)!important}
+      #live-cover>.lc-corner.br{bottom:calc(var(--fb) - 4px)!important;right:8px!important;top:auto!important;left:auto!important;transform:scale(-1)!important}
+      /* names: roles above, one line each, "ជាគូនឹង" in the middle */
+      #live-cover .lc-logo{font-size:clamp(1.4rem,min(8.6vw,4.6svh),2.4rem)!important;line-height:1.35!important}
+      #live-cover .lc-role{display:block;font-family:'Kantumruy Pro',sans-serif;font-size:clamp(.66rem,1.8svh,.82rem);letter-spacing:.04em;color:#e9d28f;opacity:0;line-height:1.7;text-shadow:0 1px 6px #000}
+      #live-cover.go .lc-role.r1{animation:lcFade .8s .2s forwards}#live-cover.go .lc-role.r2{animation:lcFade .8s 1s forwards}
+      #live-cover.done .lc-role{opacity:.95;animation:none}
+      @keyframes lcFade{to{opacity:.95}}
+      #live-cover .lc-logo .mid{margin:.1rem 0!important;gap:.5rem}
+      #live-cover .lc-pair{font-family:Moulpali,Moul,serif;font-size:clamp(.78rem,2.1svh,.95rem);color:#f3dc9c;white-space:nowrap;text-shadow:0 1px 6px #000}
+      /* guest frame: closed gold doors -> butterfly touches -> 3D open */
+      #live-cover .lc-gframe .gf-label{z-index:6}
+      .gf-doors{position:absolute;inset:0;z-index:4;perspective:800px;pointer-events:none}
+      .gfd{position:absolute;top:0;bottom:0;width:50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:linear-gradient(135deg,#b98a2e,#fff1b8 40%,#d9b15a 62%,#9a6f1c)}
+      .gfd::after{content:"";position:absolute;inset:5px 4px;border:1px solid #6b4a10;opacity:.75}
+      .gfd-l{left:0;transform-origin:0 50%;clip-path:polygon(0 50%,var(--k,26px) 0,100% 0,100% 100%,var(--k,26px) 100%)}
+      .gfd-r{right:0;transform-origin:100% 50%;clip-path:polygon(0 0,calc(100% - var(--k,26px)) 0,100% 50%,calc(100% - var(--k,26px)) 100%,0 100%)}
+      .gf-doors::after{content:"";position:absolute;left:50%;top:50%;width:15px;height:15px;margin:-7.5px;transform:rotate(45deg);background:linear-gradient(135deg,#fff3c8,#b98a2e);border:1px solid #5a3b08;box-shadow:0 0 8px #f3dc9c;z-index:2}
+      #live-cover.go .gfd-l{animation:gfDoorL 1.5s 5.5s cubic-bezier(.6,0,.2,1) forwards}
+      #live-cover.go .gfd-r{animation:gfDoorR 1.5s 5.5s cubic-bezier(.6,0,.2,1) forwards}
+      #live-cover.go .gf-doors{animation:gfDoorsOut .2s 7.1s forwards}
+      #live-cover.go .gf-doors::after{animation:gfKnob .5s 5.4s forwards}
+      @keyframes gfDoorL{to{transform:rotateY(-112deg)}}
+      @keyframes gfDoorR{to{transform:rotateY(112deg)}}
+      @keyframes gfDoorsOut{to{opacity:0;visibility:hidden}}
+      @keyframes gfKnob{to{opacity:0;transform:rotate(45deg) scale(2.2)}}
+      #live-cover .lc-gframe .gf-fly{bottom:auto!important;top:50%;margin:-15px 0 0 -15px;z-index:7}
+      #live-cover.go .lc-gframe .gf-fly{animation:gfFly2 4s 2.6s ease-in-out forwards}
+      #live-cover.go .lc-gframe .gf-fly img{animation:wing .22s 2.6s 18 alternate,wing2 2.6s 6.6s infinite alternate}
+      @keyframes gfFly2{0%{opacity:0;transform:translate(var(--bf-dx,0px),var(--bf-dy,-220px)) rotate(16deg) scale(.5)}8%{opacity:1}26%{transform:translate(calc(var(--bf-dx,0px) - 70px),calc(var(--bf-dy,-220px) * .7)) rotate(-22deg) scale(.8)}46%{transform:translate(55px,calc(var(--bf-dy,-220px) * .42)) rotate(18deg) scale(.95)}62%{transform:translate(-30px,calc(var(--bf-dy,-220px) * .12)) rotate(-10deg) scale(1.02)}70%,76%{opacity:1;transform:translate(0,0) rotate(0) scale(1.15)}100%{opacity:1;transform:translate(0,var(--bf-rest,60px)) rotate(0) scale(.95)}}
+      @media (prefers-reduced-motion:reduce){.gf-doors{display:none}}
+      /* scroll cue with a pan (hand) icon */
+      #live-cover .lc-cue{bottom:calc(var(--fb) + 14px)!important;flex-direction:column;gap:.12rem}
+      .lc-hand{width:26px;height:26px;fill:none;stroke:#f3dc9c;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;animation:lcPan 1.8s ease-in-out infinite;filter:drop-shadow(0 1px 4px #000)}
+      @keyframes lcPan{0%,100%{transform:translateY(5px);opacity:.55}50%{transform:translateY(-5px);opacity:1}}
+    </style>
+    <style id="lv-short">
+      /* shorter phones: tighten the cover so the date never touches the scroll cue */
+      @media (max-height:780px){
+        #live-cover{gap:clamp(.1rem,.7svh,.35rem)!important;padding-top:clamp(2.4rem,5svh,3.4rem)!important}
+        #live-cover>img[data-kit=crest]{width:clamp(34px,6svh,54px)!important}
+        #live-cover>p.foil:not(#lc-guest){font-size:clamp(.82rem,min(4.2vw,2.4svh),1.2rem)!important;line-height:1.5!important}
+        #live-cover .lc-logo{font-size:clamp(1.1rem,min(7.2vw,3.7svh),1.8rem)!important;line-height:1.25!important}
+        #live-cover .lc-role{font-size:.6rem!important;line-height:1.3!important}
+        #live-cover .lc-pair{font-size:.7rem!important}
+        #live-cover .lc-logo .mid{margin:0!important}
+        #live-cover #lc-en{font-size:clamp(.8rem,2.4svh,.98rem)!important}
+        #live-cover .lc-gframe{min-height:2.3rem!important;padding:.35rem 2.4rem!important;margin:.95rem auto 1.05rem!important}
+        #live-cover .lc-gframe .gf-fly{width:24px;margin-left:-12px}
+        #live-cover .lc-date1{padding:.2rem .6rem;font-size:.8rem}
+        #live-cover .lc-cue{bottom:calc(var(--fb) + 6px)!important}
+        .lc-hand{width:19px;height:19px}
+      }
+    </style>
     <div id="gate-screen" aria-label="Open invitation">
       <div class="gt-glow"></div>
       <div class="gt-door gt-l"><div class="gt-art"></div></div>
@@ -1286,16 +1351,17 @@ window.addEventListener('load', function () {
     </div>
 
     <section id="live-cover">
+      <i class="lc-fl a"></i><i class="lc-fl b"></i>
       <img data-kit="corner" class="lc-corner tl" alt=""><img data-kit="corner" class="lc-corner tr" alt=""><img data-kit="corner" class="lc-corner bl" alt=""><img data-kit="corner" class="lc-corner br" alt="">
       <img data-kit="crest" alt="" style="width:92px">
       <p class="foil font-moul text-xs">សិរីសួស្តីអាពាហ៍ពិពាហ៍</p>
       <p class="lc-script">The Wedding Invitation</p>
-      <div class="lc-logo"><span class="foil g" id="lc-groom"></span><div class="mid"><hr><span class="lc-rings"><svg class="rg rg-l" viewBox="0 0 130 78" aria-hidden="true"><defs><linearGradient id="rgG1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b98a2e"/><stop offset=".45" stop-color="#fff3c8"/><stop offset="1" stop-color="#d9b15a"/></linearGradient></defs><circle cx="48" cy="44" r="25" fill="none" stroke="url(#rgG1)" stroke-width="6"/><circle cx="48" cy="44" r="27.5" fill="none" stroke="#fff7d6" stroke-opacity=".5" stroke-width="1.1"/></svg><svg class="rg rg-r" viewBox="0 0 130 78" aria-hidden="true"><defs><linearGradient id="rgG2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b98a2e"/><stop offset=".45" stop-color="#fff3c8"/><stop offset="1" stop-color="#d9b15a"/></linearGradient></defs><circle cx="82" cy="44" r="25" fill="none" stroke="url(#rgG2)" stroke-width="6"/><circle cx="82" cy="44" r="27.5" fill="none" stroke="#fff7d6" stroke-opacity=".5" stroke-width="1.1"/><path d="M82 4 L91 14 L82 25 L73 14 Z" fill="url(#rgG2)" stroke="#fff7d6" stroke-width="1"/><path d="M73 14 H91 M82 4 L82 25" stroke="#fff7d6" stroke-opacity=".7" stroke-width=".8"/></svg><svg class="rg rg-x" viewBox="0 0 130 78" aria-hidden="true"><defs><linearGradient id="rgG3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b98a2e"/><stop offset=".45" stop-color="#fff3c8"/><stop offset="1" stop-color="#d9b15a"/></linearGradient><clipPath id="rgC3"><rect x="54" y="8" width="22" height="26"/></clipPath></defs><circle cx="48" cy="44" r="25" fill="none" stroke="url(#rgG3)" stroke-width="6" clip-path="url(#rgC3)"/></svg></span><hr></div><span class="foil b" id="lc-bride"></span></div>
+      <div class="lc-logo"><small class="lc-role r1">កូនកំលោះ</small><span class="foil g" id="lc-groom"></span><div class="mid"><hr><span class="lc-pair">ជាគូនឹង</span><hr></div><small class="lc-role r2">កូនក្រមុំ</small><span class="foil b" id="lc-bride"></span></div>
       <p id="lc-en" style="font-family:'Great Vibes','Snell Roundhand','Apple Chancery','Brush Script MT',cursive" class="text-2xl text-amber-100"></p>
-      <div class="lc-gframe" id="lc-gframe"><i class="gf-shape"></i><i class="gf-core"></i><i class="gf-jewel l"></i><i class="gf-jewel r"></i><span class="gf-label">សូមគោរពអញ្ជើញ</span><span class="gf-fly"><img data-kit="butterfly" alt=""></span><p id="lc-guest" class="foil font-moul text-lg"></p></div>
+      <div class="lc-gframe" id="lc-gframe"><i class="gf-shape"></i><i class="gf-core"></i><i class="gf-jewel l"></i><i class="gf-jewel r"></i><span class="gf-label">សូមគោរពអញ្ជើញ</span><span class="gf-fly"><img data-kit="butterfly" alt=""></span><p id="lc-guest" class="foil font-moul text-lg"></p><div class="gf-doors" aria-hidden="true"><i class="gfd gfd-l"></i><i class="gfd gfd-r"></i></div></div>
       <div class="lc-date1" id="lc-date"></div>
       <p id="lc-lunar" class="text-xs opacity-80"></p><p id="lc-venue" class="text-xs opacity-80"></p>
-      <span class="lc-cue"><b>សូមកិលចុះ ដើម្បីទស្សនាធៀបការ</b><i class="lc-chev"></i></span>
+      <span class="lc-cue"><svg class="lc-hand" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 11V6a2 2 0 0 0-4 0"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><b>សូមរំកិលចុះក្រោមបន្ត</b><i class="lc-chev"></i></span>
     </section>
     <div id="lv-bar"><div class="lg foil" id="lv-logo"></div><button type="button" onclick="toggleInvitationMusic()">♪ តន្ត្រី</button></div>
     <div id="lv-prog"><i></i></div><nav id="lv-nav"></nav>
@@ -2179,6 +2245,7 @@ window.addEventListener('load', function () {
     window.addEventListener('unhandledrejection', e => reportError('Promise: ' + ((e.reason && e.reason.message) || e.reason)));
     const safe = (name, fn) => { try { fn(); } catch (e) { reportError(name + ': ' + ((e && e.message) || e)); } };
     const IS_GAS = () => typeof google !== 'undefined' && google.script && google.script.run;
+    const GUEST_QS = (new URLSearchParams(location.search).get('guest') || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 80);
     const GUEST_TOKEN = (typeof INITIAL_TOKEN === 'string' && INITIAL_TOKEN.indexOf('__GUEST') !== 0 && /^[A-Za-z0-9_-]+$/.test(INITIAL_TOKEN)) ? INITIAL_TOKEN : '';
 
     let currentGuestPage = 1, guestPageSize = 10;
@@ -2318,7 +2385,7 @@ window.addEventListener('load', function () {
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (GUEST_TOKEN && IS_GAS()) initGuestMode(); else loadDataFromGoogleSheets();
+      if (GUEST_TOKEN && IS_GAS()) initGuestMode(); else if (GUEST_QS && IS_GAS()) initGuestMode(true); else loadDataFromGoogleSheets();
 
       document.addEventListener('click', (e) => {
         const menu = $('dropdown-action-menu');
@@ -2379,7 +2446,7 @@ window.addEventListener('load', function () {
       safe('refreshIcons', refreshIcons);
     }
 
-    function initGuestMode() {
+    function initGuestMode(byName) {
       window.__dataLoaded = true;
       guestMode = true;
       $('admin-dashboard-container')?.classList.add('hidden');
@@ -2390,9 +2457,13 @@ window.addEventListener('load', function () {
       $('public-back-btn')?.classList.add('hidden');
       $('public-invitation-container')?.classList.remove('hidden');
       showLoading(true);
-      google.script.run
+      const run = google.script.run
         .withSuccessHandler(res => {
           showLoading(false);
+          if (byName) {
+            if (!res || res.disabled || !res.settings) { $('invitation-guest-name-display').textContent = 'តំណនេះមិនទាន់បើកទេ'; showToast('សូមប្រើតំណផ្ទាល់ខ្លួនដែលបានផ្ញើជូន', 'error'); return; }
+            res.guest = { id: 'pub', name: GUEST_QS, nickname: '', token: 'pub', status: '', wishes: '' };
+          }
           weddingSettings = { ...defaultWeddingSettings };
           if (res && res.settings) Object.keys(res.settings).forEach(k => { if (res.settings[k] !== '') weddingSettings[k] = res.settings[k]; });
           if (weddingSettings.theme) changeAppTheme(weddingSettings.theme, false);
@@ -2406,7 +2477,8 @@ window.addEventListener('load', function () {
           refreshIcons();
         })
         .withFailureHandler(err => { showLoading(false); showToast('មានបញ្ហា: ' + (err && err.message || err), 'error'); })
-        .getGuestInvitation(GUEST_TOKEN);
+        ;
+      if (byName) run.getPublicInvitation(); else run.getGuestInvitation(GUEST_TOKEN);
     }
 
     function filterGuests() { currentGuestPage = 1; renderGuestsTable(); }
@@ -3779,12 +3851,13 @@ window.addEventListener('load', function () {
       })();
       fit(Array.from(document.querySelectorAll('#lv .nm2 h3')), 2, 0);
       document.querySelectorAll('#lv .lv-en').forEach(e => fit([e], 1, lim));
-      const fr = $('lc-gframe'), rg = document.querySelector('#live-cover .lc-rings');
+      const fr = $('lc-gframe'), rg = document.querySelector('#live-cover .lc-logo .mid');
       if (fr && rg) {
         const a = fr.getBoundingClientRect(), b = rg.getBoundingClientRect();
         if (a.height && b.height) {
-          fr.style.setProperty('--bf-dy', Math.round(b.top + b.height / 2 - (a.bottom + 17)) + 'px');
+          fr.style.setProperty('--bf-dy', Math.round(b.top + b.height / 2 - (a.top + a.height / 2)) + 'px');
           fr.style.setProperty('--bf-dx', Math.round(b.left + b.width / 2 - (a.left + a.width / 2)) + 'px');
+          fr.style.setProperty('--bf-rest', Math.round(a.height / 2 + 17) + 'px');
         }
       }
     }
@@ -4146,7 +4219,7 @@ window.addEventListener('load', function () {
         <div id="lv-cd" style="display:grid"><div><b class="foil">--</b><small>ថ្ងៃ</small></div><div><b class="foil">--</b><small>ម៉ោង</small></div><div><b class="foil">--</b><small>នាទី</small></div><div><b class="foil">--</b><small>វិនាទី</small></div></div>
         <img data-kit="divider" alt=""><p>${dateTxt}</p>${s.lunarDate ? '<p style="opacity:.85;font-size:.9em">' + esc(s.lunarDate) + '</p>' : ''}</section>` : ''}
       ${days.some(d => d.items.length) ? `<section id="lv-prog-sec" class="rv up"><div class="pc"><h2 class="foil">កម្មវិធីសិរីមង្គលអាពាហ៍ពិពាហ៍</h2>
-        ${days.map((dy, i) => `<h3 class="dh">កម្មវិធីទី${toKh(i + 1)}${dy.date ? ' ' + fmtDay(dy.date) : (days.length === 1 && ok ? ' ' + fmtDay(d.toISOString().slice(0, 10)) : '')}</h3><div class="tl">${dy.items.map(progCard).join('')}</div>`).join('')}</div></section>` : ''}
+        ${days.map((dy, i) => `<h3 class="dh">កម្មវិធីទី${toKh(i + 1)}${dy.date ? ' ' + fmtDay(dy.date) : (days.length === 1 && ok ? ' ' + fmtDay(d.toISOString().slice(0, 10)) : '')}</h3><div class="tline">${dy.items.map(progCard).join('')}</div>`).join('')}</div></section>` : ''}
       ${photos.length ? `<section class="rv zm"><h2 class="foil">កម្រងរូបភាព</h2><div class="masonry">${photos.map((u, i) => `<img src="${esc(imgUrl(u))}" data-src="${esc(u)}" loading="lazy" onclick="openViewer(${i})" alt="" onerror="imgFail(this)">`).join('')}</div></section>` : ''}
       ${full ? `<section class="rv zm" style="padding:0"><div class="fbleed"><img src="${esc(imgUrl(full))}" data-src="${esc(full)}" onerror="imgFail(this)" alt=""></div></section>` : ''}
       ${(q || mapImg) ? `<section id="lv-venue" class="vn rv up"><h2 class="foil" style="font-size:.9rem">ទីកន្លែងប្រារព្ធពិធី</h2><img data-kit="crest" alt="" style="width:170px;margin:0 auto">
@@ -4209,6 +4282,7 @@ window.addEventListener('load', function () {
 
     function handlePublicRSVPSubmit(e) {
       e.preventDefault();
+      if (activePublicGuestToken === 'pub') { showToast('សូមប្រើតំណផ្ទាល់ខ្លួនដើម្បីឆ្លើយតប', 'error'); return; }
       const guest = guestsData.find(g => g.token === activePublicGuestToken);
       if (!guest) { showToast('រកមិនឃើញភ្ញៀវ', 'error'); return; }
       const status = document.querySelector('input[name="rsvp_status"]:checked')?.value || 'ចូលរួម';
