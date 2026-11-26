@@ -1346,6 +1346,10 @@ window.addEventListener('load', function () {
       :where(html.vh700) .gt-couple{width:70px}:where(html.vh700) .gt-sd{height:120px}
     </style>
     <style id="cover-v3">
+      #gate-screen.waiting .gt-tap{animation:none;opacity:1}
+      #gate-screen.waiting .gt-tap span{display:none}
+      #gate-screen.waiting .gt-tap::after{content:"";display:block;width:20px;height:20px;margin:.45rem auto 0;border:2px solid #d9b15a44;border-top-color:#f3dc9c;border-radius:50%;animation:gtSpin .8s linear infinite}
+      html{background:#0b0906}
       /* top group moves up; guest box is wider/taller with a bigger name */
       #live-cover{justify-content:flex-start!important;padding-top:clamp(1.5rem,calc(3.4 * var(--svh,1svh)),2.5rem)!important;padding-bottom:calc(var(--fb) + 5rem)!important}
       #live-cover #lc-en{margin-bottom:clamp(.9rem,calc(2.6 * var(--svh,1svh)),1.5rem)!important}
@@ -3851,6 +3855,29 @@ window.addEventListener('load', function () {
     const toKh = n => String(n).replace(/\d/g, d => KH_DIG[d]);
     const shortName = n => String(n || '').trim().split(/\s+/).pop();
     function liveBg() { return imgUrl(safeUrl(weddingSettings.photoCover)); }
+    // Cover photo: start downloading as early as possible, use a lighter size, try the other Drive links if one fails,
+    // and tell the gate when it is ready (the gate waits instead of opening onto an empty cover).
+    function coverUrls() {
+      const raw = safeUrl(weddingSettings.photoCover); if (!raw) return [];
+      const id = driveId(raw), sm = u => u.replace('sz=w1600', 'sz=w1100').replace('=w1600', '=w1100');
+      return id ? [sm(DRV[0](id)), sm(DRV[1](id)), DRV[2](id)] : [raw];
+    }
+    function coverPreload() {
+      const urls = coverUrls(), key = urls.join('|');
+      if (window.__coverKey === key) return; window.__coverKey = key;
+      const setBg = u => ['live-cover', 'env-screen'].forEach(id => { if ($(id)) $(id).style.backgroundImage = 'url("' + String(u).replace(/"/g, '') + '")'; });
+      if (!urls.length) { window.__coverReady = true; return; }
+      window.__coverReady = false; let k = 0;
+      const next = () => {
+        if (k >= urls.length) { window.__coverReady = true; return; }
+        const u = urls[k], im = new Image();
+        try { im.fetchPriority = 'high'; } catch (e) {}
+        im.onload = () => { setBg(u); (im.decode ? im.decode().catch(() => {}) : Promise.resolve()).then(() => { window.__coverReady = true; }); };
+        im.onerror = () => { k++; next(); };
+        im.src = u;
+      };
+      next();
+    }
     function titleCase(t) { return String(t || '').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase()); }
     function fitLive() {
       const cov = $('live-cover'); if (!cov) return;
@@ -3910,8 +3937,7 @@ window.addEventListener('load', function () {
     function renderLiveCover() {
       const s = weddingSettings, g = guestsData.find(x => x.token === activePublicGuestToken);
       const set = (id, v) => { if ($(id)) $(id).textContent = v || ''; };
-      const bg = liveBg();
-      ['live-cover', 'env-screen'].forEach(id => { if ($(id) && bg) $(id).style.backgroundImage = `url("${bg.replace(/"/g, '')}")`; });
+      coverPreload();
       set('lc-groom', shortName(s.groomName)); set('lc-bride', shortName(s.brideName));
       set('lc-en', [s.groomNameEn, s.brideNameEn].filter(Boolean).map(n => String(n).toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase())).join(' & '));
       const gn = g ? (g.nickname || g.name) : '';
@@ -4017,11 +4043,22 @@ window.addEventListener('load', function () {
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitGate);
     }
     function openGate() {
-      const g = $('gate-screen'); if (!g || g.classList.contains('opening')) return;
-      g.classList.add('opening'); startMusic();
+      const g = $('gate-screen'); if (!g || g.classList.contains('opening') || g.classList.contains('waiting')) return;
+      startMusic();                                              // must happen inside the tap
+      const run = () => {
+        g.classList.remove('waiting');
+        g.querySelectorAll('.gt-tap b').forEach(e => { if (e.dataset.t) e.textContent = e.dataset.t; });
+        g.classList.add('opening');
       setTimeout(() => { fitLive(); $('live-cover').classList.add('go'); }, 900);
       setTimeout(() => { g.style.display = 'none'; g.classList.remove('opening'); document.body.style.overflow = ''; window.scrollTo(0, 0); fitLive(); }, 2700);
       setTimeout(() => $('live-cover').classList.add('done'), 4700);
+      };
+      if (window.__coverReady !== false) return run();
+      g.classList.add('waiting');                                // photo still downloading: keep the gate, show a small loader
+      g.querySelectorAll('.gt-tap b').forEach(e => { e.dataset.t = e.textContent; e.textContent = 'កំពុងរៀបចំ…'; });
+      const t0 = Date.now(), iv = setInterval(() => {
+        if (window.__coverReady !== false || Date.now() - t0 > 7000) { clearInterval(iv); run(); }
+      }, 100);
     }
     window.addEventListener('resize', () => { if (typeof fitGate === 'function') fitGate(); });
     function showEnvelope() {
